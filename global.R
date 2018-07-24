@@ -4,7 +4,7 @@ library(shiny)
 library(googleVis)
 library(ggplot2)
 
-# adult clean data frame ####
+# clean adult data frame ####
 
 # import adult data 
 data = read.csv("./Nutrition__Physical_Activity__and_Obesity_-_Behavioral_Risk_Factor_Surveillance_System.csv", header = T, stringsAsFactors = F)
@@ -45,6 +45,7 @@ data2 =
   filter(., Question == "Vegetables consumption") %>%
   mutate(., Data_Value = 100-Data_Value)
 
+
 # reconstructing data frame
 data3 = 
   data %>%
@@ -53,9 +54,11 @@ data3 =
 data4 =
   rbind(data3, data1, data2) # combine in new conversion of fruit/veggies
 
+
 # select needed cols
 data5 = select(data4, Year = YearStart, LocationDesc, Question, Data_Value,
                Stratification = Stratification1, StratificationCategory = StratificationCategory1)
+
 
 # filter out rows
 data6 = 
@@ -70,7 +73,8 @@ data6 =
 
 #############################################################################################################
 
-# youth clean data frame ####
+# clean youth data frame ####
+
 # import youth data
 youth = data = read.csv("./Nutrition__Physical_Activity__and_Obesity_-_Youth_Risk_Behavior_Surveillance_System.csv", header = T, stringsAsFactors = F)
 
@@ -110,7 +114,6 @@ youth3 =
   youth %>%
   filter(., !Question %in% c("Fruit consumption", 
                              "Vegetables consumption")) # filter out old fruits/veggies consumption
-
 youth4 =
   rbind(youth3, youth1, youth2) # combine in new conversion of fruit/veggies
 
@@ -133,6 +136,12 @@ youth6 =
 ay_combine = 
   rbind(data6, youth6)    # long data frame 
 
+# new data frame for sorting education level in order for graphing
+edu = filter(ay_combine, StratificationCategory == "Education")
+edu$Stratification = as.factor(edu$Stratification)
+edu$Stratification = factor(edu$Stratification, levels(edu$Stratification)[c(3,2,4,1)])
+
+# wide data frame for lin reg model
 y_spread =
   youth6 %>%
     spread(key = Question, value = Data_Value) %>%
@@ -168,27 +177,22 @@ y_heatmap_2013 =   # use 2013 data instead becasue 2013 has more complete data s
   select(., 2, 6:12)
 
 # selection for heat map
-y_choice2013 = c("Obesity", "Fruit consumption", "Vegetables consumption", "Daily PE class", 
-                 ">1 hr physical activity", "Soda consumption", ">3 hr television")  # column names for heat map selection
-
+y_choice2013 = c("Obesity", "Fruit consumption", "Vegetables consumption", "Soda consumption", "Daily PE class", 
+                 ">1 hr physical activity", ">3 hr television")  # column names for heat map selection
 
 
 # selection for demographic ####
 y_choice_cat = c("Gender", "Age", "Ethnicity")
 y_choice_states = c("National", sort(unique(filter(youth6, !LocationDesc == "National")$LocationDesc))) # chance the order of choice selection
 
-
 a_choice_cat = c("Gender", "Age", "Ethnicity", "Education", "Income")
 a_choice_states = c("National", sort(unique(filter(data6, !LocationDesc == "National")$LocationDesc)))
 
 
 # selection for comparison between adult and youth ####
-
 ay_choice_food  = c("Fruit consumption", "Vegetables consumption")
 
 y_choice_pa  = c(">1 hr physical activity", "Daily PE class")
 a_choice_pa  = c("Short duration aerobic", "Short duration aerobic and strengthening", "Long duration aerobic", "Strengthening")
 
-
-# selection for lin reg model ####
 

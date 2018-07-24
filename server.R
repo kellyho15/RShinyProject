@@ -1,14 +1,7 @@
 
 
 shinyServer(function(input, output){
-  # introduction #################################
-  url <- a("Google Homepage", href="https://www.google.com/")
-  output$tab <- renderUI({
-    paste("URL link:", url)
-  })
-  
-  
-  
+
   # heat map tab #################################
     # show map using googleVis 2013 (youth)
     output$Y_map2013 <- renderGvis({
@@ -62,7 +55,6 @@ shinyServer(function(input, output){
         theme(axis.title = element_text(size=13),
               axis.text.x = element_text(size=14), axis.text.y = element_text(size=14))
     )
-    
     output$A_trend_veg <- renderPlot(
       ggplot(a_spread, aes(x=`Vegetables consumption`, y=Obesity)) + geom_point() + geom_smooth(method = 'lm') +  # obesity vs veggie
         labs(x= "Vegetables consumption % Population", y="Obesity % Population") +
@@ -113,11 +105,18 @@ shinyServer(function(input, output){
         theme(strip.text = element_text(size=15), axis.title = element_text(size=13),
               axis.text.x = element_text(size=14, angle=90), axis.text.y = element_text(size=14))
     )
-    
-    
     # show plot obesity vs demographic (adult) from state/national data across years 
     output$A_ob_stra <- renderPlot(
-      ay_combine %>%
+        if (input$A_Selected_cat == "Education"){
+        edu %>%
+        filter(Question == "Obesity") %>%
+        ggplot(aes(x=Year, y=Data_Value)) + labs(y="Obesity % Population") + 
+        scale_y_continuous(limits = c(0, 40)) + scale_x_continuous(breaks = seq(2011, 2016, by = 1)) +
+        geom_bar(stat ="identity", position = "dodge", fill="tomato1") + facet_grid(~ Stratification) +
+        theme(strip.text = element_text(size=15), axis.title = element_text(size=13),
+              axis.text.x = element_text(size=14, angle=90), axis.text.y = element_text(size=14))
+        }else{
+        ay_combine %>%
         filter(!Stratification == "Total", Question == "Obesity", Data == "adult",
                LocationDesc == input$A_Selected_LocationDesc, StratificationCategory == input$A_Selected_cat) %>%
         ggplot(aes(x=Year, y=Data_Value)) + labs(y="Obesity % Population") + 
@@ -125,8 +124,8 @@ shinyServer(function(input, output){
         geom_bar(stat ="identity", position = "dodge", fill="tomato1") + facet_grid(~ Stratification) +
         theme(strip.text = element_text(size=15), axis.title = element_text(size=13),
               axis.text.x = element_text(size=14, angle=90), axis.text.y = element_text(size=14))
+        }
     )
-
     
     
   # comparison tab #################################
@@ -140,7 +139,6 @@ shinyServer(function(input, output){
         theme(strip.text = element_text(size=15), axis.title = element_text(size=13),
               axis.text.x = element_text(size=14), axis.text.y = element_text(size=14))
     )
-    
     # box plot Youth and Adult Behavior Factor (Food) from state data across years   
     output$AY_ob_food <- renderPlot(
      ay_combine %>% 
@@ -151,29 +149,24 @@ shinyServer(function(input, output){
         theme(strip.text = element_text(size=15), axis.title = element_text(size=13),
               axis.text.x = element_text(size=14), axis.text.y = element_text(size=14))
     ) 
-    
-  
     # box plot Youth and Adult Behavior Factor (PA) from state data across years   
     output$Y_ob_pa <- renderPlot(
       ay_combine %>%
         filter(!Stratification == "Total", !LocationDesc == "National", Year == 2015,
                StratificationCategory == "Age", Question == input$Y_Selected_pa) %>%
-        ggplot(aes(x=Stratification, y=Data_Value)) + labs(x= "Age", y="Obesity % Population") + scale_y_continuous(limits = c(10, 90)) + 
+        ggplot(aes(x=Stratification, y=Data_Value)) + labs(x= "Age", y="Obesity % Population") + scale_y_continuous(limits = c(10, 75)) + 
         geom_boxplot() + geom_point(alpha = 0.05) +
         theme(strip.text = element_text(size=15), axis.title = element_text(size=13),
               axis.text.x = element_text(size=14), axis.text.y = element_text(size=14))
     )
-
     output$A_ob_pa <- renderPlot(
       ay_combine %>%
         filter(!Stratification == "Total", !LocationDesc == "National", Year == 2015,
                StratificationCategory == "Age", Question == input$A_Selected_pa) %>%
-        ggplot(aes(x=Stratification, y=Data_Value)) + labs(x= "Age", y="Obesity % Population") + scale_y_continuous(limits = c(10, 90)) +
+        ggplot(aes(x=Stratification, y=Data_Value)) + labs(x= "Age", y="Obesity % Population") + scale_y_continuous(limits = c(10, 75)) +
         geom_boxplot() + geom_point(alpha = 0.05) +
         theme(strip.text = element_text(size=15), axis.title = element_text(size=13),
               axis.text.x = element_text(size=14), axis.text.y = element_text(size=14))
     )
-    
-     
 })
     
