@@ -31,7 +31,7 @@ shinyUI(dashboardPage(
                                            tags$h4("• Obesity is often related to conditions include heart disease, stroke,
                                                    type 2 diabetes and certain types of cancer"), br(),
                                            tags$h2("Goal"),
-                                           tags$h4("• Identify distinguishable segmentation within the US obese population"),
+                                           tags$h4("• Identify distinguishable segments within the US obese population"),
                                            tags$h4("• Market segmentation could allow for more effective targeting of products/marketing campaign 
                                                    to move Americans towards healthier weights"), br(),
                                            tags$h2("Dataset"),  
@@ -43,9 +43,9 @@ shinyUI(dashboardPage(
                                                    tags$a(href="https://catalog.data.gov/dataset/nutrition-physical-activity-and-obesity-behavioral-risk-factor-surveillance-system-f645f", "Click here")), width = 9))),
          
           tabItem(tabName = "map",
-                  fluidRow(box(title = "Youth (age 14-17)", "Obesity, Diet, and Physical Activity 2013", htmlOutput("Y_map2013"), 
-                               "*Note: No data collected for states with no color; dark green color for states with missing value", height = 450, width = 6),
-                           box(title = "Adult (age >18)", "Obesity, Diet, and Physical Activity 2013", htmlOutput("A_map2013"), height = 450, width = 6)),
+                  fluidRow(box(title = "Youth (age 14-17)", "% Population for Obesity, Diet, and Physical Activity Levels 2013", htmlOutput("Y_map2013"), 
+                               "*Note: No data collected for states with no color; dark green color for states with missing value", width = 6),
+                           box(title = "Adult (age >18)", "% Population for Obesity, Diet, and Physical Activity Levels 2013", htmlOutput("A_map2013"), br(), width = 6)),
                   fluidRow(box(title = "Youth", selectizeInput("Y_selectedMap2015", "Select Input", y_choice2013), width = 6),
                            box(title = "Adult", selectizeInput("A_selectedMap2015", "Selected Input", a_choice2013), width = 6))),
           
@@ -80,7 +80,7 @@ shinyUI(dashboardPage(
           
           tabItem(tabName = "diet_pa",
                   fluidRow(column(2), box(title = "Youth and Adult Obesity", "US States data 2015", plotOutput("AY_ob_age"), width = 8)),     # selection for comparison between adult and youth
-                  fluidRow(column(2), box(title = "Youth and Adult Diet Consumption", "US States data 2015 ", plotOutput("AY_ob_food"), width = 8),
+                  fluidRow(column(2), box(title = "Youth and Adult Diet", "US States data 2015 ", plotOutput("AY_ob_food"), width = 8),
                            box(title = "Diet",selectizeInput("AY_Selected_food", "Select Diet", ay_choice_food), width = 2)),
                   fluidRow(box(title = "Youth", selectizeInput("Y_Selected_pa", "Select Physical Activity", y_choice_pa), width = 2),
                            box(title = "Youth Physical Activity", "US States data 2015", plotOutput("Y_ob_pa"), width = 3),

@@ -80,10 +80,10 @@ youth = data = read.csv("./Nutrition__Physical_Activity__and_Obesity_-_Youth_Ris
 
 # shorten question description (for ploting purpose)
 youth$Question = gsub("Percent of students in grades 9-12 watching 3 or more hours of television each school day", "≥ 3 hr television", youth$Question, fixed=TRUE)
-youth$Question = gsub("Percent of students in grades 9-12 who achieve 1 hour or more of moderate-and/or vigorous-intensity physical activity daily", ">1 hr physical activity", youth$Question, fixed=TRUE)
+youth$Question = gsub("Percent of students in grades 9-12 who achieve 1 hour or more of moderate-and/or vigorous-intensity physical activity daily", ">1 hr daily physical activity", youth$Question, fixed=TRUE)
 youth$Question = gsub("Percent of students in grades 9-12 who consume fruit less than 1 time daily", "Fruit consumption", youth$Question, fixed=TRUE)
 youth$Question = gsub("Percent of students in grades 9-12 who consume vegetables less than 1 time daily", "Vegetables consumption", youth$Question, fixed=TRUE)
-youth$Question = gsub("Percent of students in grades 9-12 who drank regular soda/pop at least one time per day", "Soda consumption ≥ once/day", youth$Question, fixed=TRUE)
+youth$Question = gsub("Percent of students in grades 9-12 who drank regular soda/pop at least one time per day", "Soda consumption", youth$Question, fixed=TRUE)
 youth$Question = gsub("Percent of students in grades 9-12 who have an overweight classification", "Overweight", youth$Question, fixed=TRUE)
 youth$Question = gsub("Percent of students in grades 9-12 who have obesity", "Obesity", youth$Question, fixed=TRUE)
 youth$Question = gsub("Percent of students in grades 9-12 who participate in daily physical education", "Daily PE class", youth$Question, fixed=TRUE)
@@ -126,7 +126,7 @@ youth6 =
   youth5 %>%
   mutate(., Data = "youth") %>%  # add new column for differentiating youth vs adult data in dataframe: ay_combine 
   filter(.,!Data_Value == is.na(Data_Value),
-         !Question == "Overweight",  # limit scope to obesity only
+         !Question %in% c("Overweight", "≥ 3 hr television", "Soda consumption"),  # limit scope to obesity, dient, and physical activity only
          !Stratification %in% c("2 or more races", "Hawaiian/Pacific Islander", "American Indian/Alaska Native"), # note: Stratification include Total still
          !LocationDesc %in% c("District of Columbia", "Guam", "Puerto Rico", "Virgin Islands")) # note: LocationDesc include National still
 
@@ -174,11 +174,11 @@ y_heatmap_2013 =   # use 2013 data instead becasue 2013 has more complete data s
   ay_combine %>%       # obesity trend also did not change that much between 2013 and 2015
   filter(., Stratification == "Total", Year == 2013, !LocationDesc == "National", Data == "youth") %>%   # heat map for 2015
   spread(., key = Question, value = Data_Value) %>%
-  select(., 2, 6:12)
+  select(., 2, 6:10)
 
 # selection for heat map
-y_choice2013 = c("Obesity", "Fruit consumption", "Vegetables consumption", "Soda consumption", "Daily PE class", 
-                 ">1 hr physical activity", ">3 hr television")  # column names for heat map selection
+y_choice2013 = c("Obesity", "Fruit consumption", "Vegetables consumption", 
+                 "Daily PE class", ">1 hr daily physical activity")  # column names for heat map selection
 
 
 # selection for demographic ####
@@ -192,7 +192,7 @@ a_choice_states = c("National", sort(unique(filter(data6, !LocationDesc == "Nati
 # selection for comparison between adult and youth ####
 ay_choice_food  = c("Fruit consumption", "Vegetables consumption")
 
-y_choice_pa  = c(">1 hr physical activity", "Daily PE class")
+y_choice_pa  = c(">1 hr daily physical activity", "Daily PE class")
 a_choice_pa  = c("Short duration aerobic", "Short duration aerobic and strengthening", "Long duration aerobic", "Strengthening")
 
 
