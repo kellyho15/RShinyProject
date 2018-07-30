@@ -29,8 +29,8 @@ shinyServer(function(input, output){
               axis.text.x = element_text(size=14), axis.text.y = element_text(size=14))
     )
     output$Y_trend_veg <- renderPlot(
-      ggplot(y_spread, aes(x=`Vegetables consumption`, y=Obesity)) + geom_point() + geom_smooth(method = 'lm') +   # obesity vs veggie
-        labs(x= "Vegetables consumption population (%)", y="Obese population (%)") +
+      ggplot(y_spread, aes(x=`Vegetable consumption`, y=Obesity)) + geom_point() + geom_smooth(method = 'lm') +   # obesity vs veggie
+        labs(x= "Vegetable consumption population (%)", y="Obese population (%)") +
         theme(axis.title = element_text(size=13),
               axis.text.x = element_text(size=14), axis.text.y = element_text(size=14))
     )
@@ -56,8 +56,8 @@ shinyServer(function(input, output){
               axis.text.x = element_text(size=14), axis.text.y = element_text(size=14))
     )
     output$A_trend_veg <- renderPlot(
-      ggplot(a_spread, aes(x=`Vegetables consumption`, y=Obesity)) + geom_point() + geom_smooth(method = 'lm') +  # obesity vs veggie
-        labs(x= "Vegetables consumption population (%)", y="Obese population (%)") +
+      ggplot(a_spread, aes(x=`Vegetable consumption`, y=Obesity)) + geom_point() + geom_smooth(method = 'lm') +  # obesity vs veggie
+        labs(x= "Vegetable consumption population (%)", y="Obese population (%)") +
         theme(axis.title = element_text(size=13),
               axis.text.x = element_text(size=14), axis.text.y = element_text(size=14))
     )

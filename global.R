@@ -11,7 +11,7 @@ data = read.csv("./Nutrition__Physical_Activity__and_Obesity_-_Behavioral_Risk_F
 
 # shorten question description (for ploting purpose)
 data$Question = gsub("Percent of adults who report consuming fruit less than one time daily", "Fruit consumption", data$Question, fixed=TRUE)
-data$Question = gsub("Percent of adults who report consuming vegetables less than one time daily", "Vegetables consumption", data$Question, fixed=TRUE)
+data$Question = gsub("Percent of adults who report consuming vegetables less than one time daily", "Vegetable consumption", data$Question, fixed=TRUE)
 data$Question = gsub("Percent of adults aged 18 years and older who have obesity", "Obesity", data$Question, fixed=TRUE)
 data$Question = gsub("Percent of adults aged 18 years and older who have an overweight classification", "Overweight", data$Question, fixed=TRUE)
 data$Question = gsub("Percent of adults who achieve at least 150 minutes a week of moderate-intensity aerobic physical activity or 75 minutes a week of vigorous-intensity aerobic activity (or an equivalent combination)", "Short duration aerobic", data$Question, fixed=TRUE)
@@ -42,14 +42,14 @@ data1 =
   mutate(., Data_Value = 100-Data_Value)
 data2 = 
   data %>%
-  filter(., Question == "Vegetables consumption") %>%
+  filter(., Question == "Vegetable consumption") %>%
   mutate(., Data_Value = 100-Data_Value)
 
 
 # reconstructing data frame
 data3 = 
   data %>%
-  filter(., !Question %in% c("Fruit consumption", "Vegetables consumption")) # filter out old fruits/veggies consumption
+  filter(., !Question %in% c("Fruit consumption", "Vegetable consumption")) # filter out old fruits/veggies consumption
 
 data4 =
   rbind(data3, data1, data2) # combine in new conversion of fruit/veggies
@@ -82,7 +82,7 @@ youth = data = read.csv("./Nutrition__Physical_Activity__and_Obesity_-_Youth_Ris
 youth$Question = gsub("Percent of students in grades 9-12 watching 3 or more hours of television each school day", "≥ 3 hr television", youth$Question, fixed=TRUE)
 youth$Question = gsub("Percent of students in grades 9-12 who achieve 1 hour or more of moderate-and/or vigorous-intensity physical activity daily", ">1 hr daily physical activity", youth$Question, fixed=TRUE)
 youth$Question = gsub("Percent of students in grades 9-12 who consume fruit less than 1 time daily", "Fruit consumption", youth$Question, fixed=TRUE)
-youth$Question = gsub("Percent of students in grades 9-12 who consume vegetables less than 1 time daily", "Vegetables consumption", youth$Question, fixed=TRUE)
+youth$Question = gsub("Percent of students in grades 9-12 who consume vegetables less than 1 time daily", "Vegetable consumption", youth$Question, fixed=TRUE)
 youth$Question = gsub("Percent of students in grades 9-12 who drank regular soda/pop at least one time per day", "Soda consumption", youth$Question, fixed=TRUE)
 youth$Question = gsub("Percent of students in grades 9-12 who have an overweight classification", "Overweight", youth$Question, fixed=TRUE)
 youth$Question = gsub("Percent of students in grades 9-12 who have obesity", "Obesity", youth$Question, fixed=TRUE)
@@ -106,14 +106,14 @@ youth1 =
   mutate(., Data_Value = 100-Data_Value)
 youth2 =
   youth %>%
-  filter(., Question == "Vegetables consumption") %>%
+  filter(., Question == "Vegetable consumption") %>%
   mutate(., Data_Value = 100-Data_Value)
 
 # reconstructing data frame
 youth3 = 
   youth %>%
   filter(., !Question %in% c("Fruit consumption", 
-                             "Vegetables consumption")) # filter out old fruits/veggies consumption
+                             "Vegetable consumption")) # filter out old fruits/veggies consumption
 youth4 =
   rbind(youth3, youth1, youth2) # combine in new conversion of fruit/veggies
 
@@ -164,7 +164,7 @@ a_heatmap_2013 =
   select(., 2, 6:13)
 
 # selection for heat map
-a_choice2013 = c("Obesity", "Fruit consumption", "Vegetables consumption", "Short duration aerobic",
+a_choice2013 = c("Obesity", "Fruit consumption", "Vegetable consumption", "Short duration aerobic",
                  "Short duration aerobic and strengthening", "Long duration aerobic", "Strengthening", 
                  "No physical activity")  # column names for heat map selection
 
@@ -177,7 +177,7 @@ y_heatmap_2013 =   # use 2013 data instead becasue 2013 has more complete data s
   select(., 2, 6:10)
 
 # selection for heat map
-y_choice2013 = c("Obesity", "Fruit consumption", "Vegetables consumption", 
+y_choice2013 = c("Obesity", "Fruit consumption", "Vegetable consumption", 
                  "Daily PE class", ">1 hr daily physical activity")  # column names for heat map selection
 
 
@@ -190,7 +190,7 @@ a_choice_states = c("National", sort(unique(filter(data6, !LocationDesc == "Nati
 
 
 # selection for comparison between adult and youth ####
-ay_choice_food  = c("Fruit consumption", "Vegetables consumption")
+ay_choice_food  = c("Fruit consumption", "Vegetable consumption")
 
 y_choice_pa  = c(">1 hr daily physical activity", "Daily PE class")
 a_choice_pa  = c("Short duration aerobic", "Short duration aerobic and strengthening", "Long duration aerobic", "Strengthening")

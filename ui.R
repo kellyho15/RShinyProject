@@ -14,7 +14,7 @@ shinyUI(dashboardPage(
             menuItem("Youth General Trend", tabName = "y_gen_trend", icon = icon("signal")),
             menuItem("Adult General Trend", tabName = "a_gen_trend", icon = icon("signal")),
             menuItem("Demographic", tabName = "ob_stra", icon = icon("database")),
-            menuItem("Diet/Physical Activity", tabName = "diet_pa", icon = icon("user"))
+            menuItem("Obesity Across Age", tabName = "ob_age", icon = icon("user"))
 
         )
        
@@ -78,7 +78,7 @@ shinyUI(dashboardPage(
                            box(title = "Adult", selectizeInput("A_Selected_LocationDesc", "Select Location", a_choice_states), width = 2),  
                            box(title = "Adult",selectizeInput("A_Selected_cat", "Select Demographic", a_choice_cat), width = 2))),
           
-          tabItem(tabName = "diet_pa",
+          tabItem(tabName = "ob_age",
                   fluidRow(column(2), box(title = "Youth and Adult Obesity", "US States data 2015", plotOutput("AY_ob_age"), width = 8)),     # selection for comparison between adult and youth
                   fluidRow(column(2), box(title = "Youth and Adult Diet", "US States data 2015 ", plotOutput("AY_ob_food"), width = 8),
                            box(title = "Diet",selectizeInput("AY_Selected_food", "Select Diet", ay_choice_food), width = 2)),
