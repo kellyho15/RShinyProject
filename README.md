@@ -4,6 +4,7 @@ The main objective of this study was to observe the demographics of obesity in t
 
 My main goal was to identify distinct segments with high obesity within the US population. Market segmentation could allow for more effective targeting of products and marketing campaign such as promotion of gym memberships, healthy eating programs, or healthcare discounts in order to move Americans towards healthier weights.  
 
+
 Blog Post: https://nycdatascience.com/blog/student-works/r-shiny/us-obesity-trend/
 
 R Shiny App: https://kellyho.shinyapps.io/ShinyProject/
